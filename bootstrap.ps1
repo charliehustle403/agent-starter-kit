@@ -39,15 +39,47 @@ function Info($msg) { Write-Host "  $msg" -ForegroundColor Cyan }
 function Ok($msg)   { Write-Host "  OK  $msg" -ForegroundColor Green }
 function Warn($msg) { Write-Host "  !   $msg" -ForegroundColor Yellow }
 
+function Test-Lattice { [bool](Get-Command lattice -ErrorAction SilentlyContinue) }
+
+# Ensure the Lattice CLI (PyPI package: lattice-tracker) is installed. Prefer uv, then
+# pipx, then pip --user. We install the lightweight package, never vendor a binary.
+function Ensure-Lattice {
+    if (Test-Lattice) { Ok "lattice CLI found ($((lattice --version 2>&1) -replace '[\r\n]+',' '))."; return }
+
+    Info "lattice CLI not found — installing 'lattice-tracker' from PyPI."
+    $installed = $false
+    if (Get-Command uv -ErrorAction SilentlyContinue) {
+        Info "Using uv: uv tool install lattice-tracker"
+        try { uv tool install lattice-tracker; $installed = $true } catch { Warn "uv install failed: $($_.Exception.Message)" }
+    }
+    if (-not $installed -and (Get-Command pipx -ErrorAction SilentlyContinue)) {
+        Info "Using pipx: pipx install lattice-tracker"
+        try { pipx install lattice-tracker; $installed = $true } catch { Warn "pipx install failed: $($_.Exception.Message)" }
+    }
+    if (-not $installed -and (Get-Command pip -ErrorAction SilentlyContinue)) {
+        Info "Using pip: pip install --user lattice-tracker"
+        try { pip install --user lattice-tracker; $installed = $true } catch { Warn "pip install failed: $($_.Exception.Message)" }
+    }
+    if (-not $installed) {
+        throw "Could not install lattice-tracker (no uv/pipx/pip found). See GETTING_STARTED.md, install it, then re-run."
+    }
+
+    # Re-check: the install dir (e.g. ~/.local/bin) may not be on PATH for this session.
+    if (Test-Lattice) {
+        Ok "Installed: $((lattice --version 2>&1) -replace '[\r\n]+',' ')."
+    } else {
+        $binHint = Join-Path $HOME '.local\bin'
+        throw "lattice-tracker installed but 'lattice' is not on PATH. Add '$binHint' to PATH (restart the shell), then re-run. See GETTING_STARTED.md."
+    }
+}
+
 Write-Host "`nBootstrapping '$ProjectName' ($ProjectCode)`n" -ForegroundColor White
 
 # --- Pre-flight -----------------------------------------------------------
-if (-not (Get-Command lattice -ErrorAction SilentlyContinue)) {
-    throw "lattice CLI not found on PATH. Install it, then re-run."
-}
 if (-not (Test-Path '.git')) {
     throw "No .git here. Run this from the repo root of your new (cloned) project."
 }
+Ensure-Lattice
 if (Test-Path '.lattice') {
     Warn ".lattice already exists — skipping 'lattice init' (already bootstrapped?)."
     $skipLattice = $true

@@ -29,6 +29,9 @@ already wired in:
 
 ## How to start a new project
 
+> **New machine?** First install the toolchain (Git, Python, Node/npm, uv, `gh`) and an agent
+> CLI (Claude Code or Codex). Step-by-step, Windows-first: **[GETTING_STARTED.md](GETTING_STARTED.md)**.
+
 1. On GitHub, click **“Use this template” → Create a new repository** (gives you a fresh
    repo with no shared history). Then clone it locally.
 2. From the repo root, run the bootstrap (PowerShell):
@@ -38,6 +41,7 @@ already wired in:
    ```
 
    This will:
+   - **install the Lattice CLI** (`lattice-tracker` from PyPI) if it isn't already present,
    - `lattice init` with the `classic` workflow and your project code (docs already carry
      the mandate, so it skips re-injecting it),
    - create + push a `dev` branch,
@@ -48,8 +52,10 @@ already wired in:
 
 ## Requirements
 
-- [`lattice`](https://github.com/) CLI on PATH (`lattice --version`)
-- [`gh`](https://cli.github.com/) authenticated (`gh auth status`) — only needed for the
-  automatic branch protection step
-- Git, PowerShell 7+ (the bootstrap is Windows-first; the steps are trivial to run by hand
-  on other platforms)
+Full setup walkthrough: **[GETTING_STARTED.md](GETTING_STARTED.md)**. In short:
+
+- Git, Python 3.11+, Node.js 18+ / npm, and [`uv`](https://docs.astral.sh/uv/)
+- The **Lattice** CLI (`lattice-tracker`) — `bootstrap.ps1` installs it automatically if missing
+- [`gh`](https://cli.github.com/) authenticated (`gh auth status`) — for the branch-protection step
+- An agent CLI: **Claude Code** and/or **Codex** (install steps in GETTING_STARTED.md)
+- PowerShell 7+ to run `bootstrap.ps1` (Windows-first; steps are trivial to run by hand elsewhere)
