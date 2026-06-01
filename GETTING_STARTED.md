@@ -61,6 +61,26 @@ uv tool install lattice-tracker      # provides `lattice` and `lattice-mcp`
 
 Verify: `lattice --version` (expect `lattice, version 0.2.0` or newer).
 
+### Fallback: install from source (Git)
+
+If PyPI is blocked or `bootstrap.ps1` can't install Lattice for some reason, install it
+straight from the Git source instead:
+
+```powershell
+uv tool install git+https://github.com/charliehustle403/lattice.git
+# equivalents:
+#   pipx install git+https://github.com/charliehustle403/lattice.git
+#   pip install --user git+https://github.com/charliehustle403/lattice.git
+# SSH form (if you have a key set up):
+#   uv tool install git+ssh://git@github.com/charliehustle403/lattice.git
+```
+
+> **Note:** [`charliehustle403/lattice`](https://github.com/charliehustle403/lattice.git) is a
+> **private** repo, so this fallback only works on a machine signed in to that GitHub account
+> (cached `gh`/git credentials or an SSH key with access). If you don't have access, install
+> from the public upstream instead:
+> `uv tool install git+https://github.com/Stage-11-Agentics/lattice.git`.
+
 > **PATH note:** uv/pipx/pip install console scripts to `~/.local/bin` (Windows:
 > `%USERPROFILE%\.local\bin`). If `lattice` isn't found after install, add that folder to PATH
 > and restart your shell.
