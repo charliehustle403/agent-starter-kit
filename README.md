@@ -37,11 +37,15 @@ already wired in:
 
 1. On GitHub, click **“Use this template” → Create a new repository** (gives you a fresh
    repo with no shared history). Then clone it locally.
-2. From the repo root, run the bootstrap (PowerShell):
+2. From the repo root, run the bootstrap.
 
-   ```powershell
-   ./bootstrap.ps1 -ProjectName "My New Thing" -ProjectCode "MNT"
+   **Windows (Command Prompt):**
+
+   ```bat
+   powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1 -ProjectName "My New Thing" -ProjectCode "MNT"
    ```
+
+   **Linux** (PowerShell 7): `pwsh ./bootstrap.ps1 -ProjectName "My New Thing" -ProjectCode "MNT"`
 
    This will:
    - **install the Lattice CLI** (`lattice-tracker` from PyPI) if it isn't already present,
