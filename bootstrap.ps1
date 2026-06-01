@@ -73,6 +73,32 @@ function Ensure-Lattice {
     }
 }
 
+function Test-GitLfs { try { git lfs version *> $null; return ($LASTEXITCODE -eq 0) } catch { return $false } }
+
+# Ensure Git LFS is available and enable it for THIS repo (repo-scoped filters). Best-effort
+# binary install; NON-FATAL if it can't be installed — the project still works and the shipped
+# .gitattributes takes effect once git-lfs is present.
+function Ensure-GitLfs {
+    if (-not (Test-GitLfs)) {
+        Info "git-lfs not found — attempting best-effort install."
+        if (Get-Command winget -ErrorAction SilentlyContinue) {
+            try { winget install --id GitHub.GitLFS -e --silent --accept-source-agreements --accept-package-agreements } catch { Warn "winget git-lfs install failed: $($_.Exception.Message)" }
+        } elseif (Get-Command brew -ErrorAction SilentlyContinue) {
+            try { brew install git-lfs } catch { Warn "brew git-lfs install failed: $($_.Exception.Message)" }
+        } elseif (Get-Command apt-get -ErrorAction SilentlyContinue) {
+            try { sudo apt-get update; sudo apt-get install -y git-lfs } catch { Warn "apt git-lfs install failed: $($_.Exception.Message)" }
+        } else {
+            Warn "No package manager (winget/brew/apt) found to auto-install git-lfs."
+        }
+    }
+    if (Test-GitLfs) {
+        git lfs install --local | Out-Null
+        Ok "Git LFS enabled for this repo ($((git lfs version) -replace '[\r\n]+',' '))."
+    } else {
+        Warn "git-lfs unavailable — skipped 'git lfs install'. Install it (see GETTING_STARTED.md); the shipped .gitattributes takes effect once it's present."
+    }
+}
+
 Write-Host "`nBootstrapping '$ProjectName' ($ProjectCode)`n" -ForegroundColor White
 
 # --- Pre-flight -----------------------------------------------------------
@@ -80,6 +106,7 @@ if (-not (Test-Path '.git')) {
     throw "No .git here. Run this from the repo root of your new (cloned) project."
 }
 Ensure-Lattice
+Ensure-GitLfs
 if (Test-Path '.lattice') {
     Warn ".lattice already exists — skipping 'lattice init' (already bootstrapped?)."
     $skipLattice = $true
@@ -169,4 +196,6 @@ Write-Host "  2. Fill in section 5 'Project specifics' of AGENTS.md and GEMINI.m
 Write-Host "  3. Track that edit as your first Lattice task:"
 Write-Host "       lattice create `"Fill in project docs`" --actor $Actor" -ForegroundColor DarkGray
 Write-Host "  4. Develop on dev; promote to main via PR."
-Write-Host "  5. Optional: install peon-ping for agent voice notifications - see GETTING_STARTED.md (section 5).`n"
+Write-Host "  5. Optional: install peon-ping for agent voice notifications - see GETTING_STARTED.md (section 5)."
+Write-Host "  Git LFS is enabled and .gitattributes is ready - track more types with: git lfs track `"*.ext`"" -ForegroundColor DarkGray
+Write-Host ""

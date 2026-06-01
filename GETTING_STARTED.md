@@ -18,6 +18,7 @@ driving the work with an AI coding agent (**Claude Code** or **Codex**). It's **
 | **Node.js 18+ LTS + npm** | runtime for JS/TS projects and for installing agent CLIs | `node --version` / `npm --version` |
 | **uv** | fast Python package/tool manager; installs Lattice cleanly | `uv --version` |
 | **GitHub CLI (`gh`)** | repo creation + branch protection (used by `bootstrap.ps1`) | `gh --version` |
+| **Git LFS** | versions large/binary files (media, models, datasets) — the kit ships a `.gitattributes` and `bootstrap.ps1` runs `git lfs install` | `git lfs version` |
 
 ### Windows (recommended: `winget`)
 
@@ -27,23 +28,30 @@ winget install --id Python.Python.3.13 -e        # any 3.11+ is fine
 winget install --id OpenJS.NodeJS.LTS -e
 winget install --id astral-sh.uv -e
 winget install --id GitHub.cli -e
+winget install --id GitHub.GitLFS -e
 ```
 
-Close and reopen your terminal afterward so PATH updates take effect.
+Close and reopen your terminal afterward so PATH updates take effect. (The official Git for
+Windows installer can also bundle Git LFS — if `git lfs version` already works, skip that line.)
 
 ### macOS (Homebrew)
 
 ```bash
-brew install git python node uv gh
+brew install git git-lfs python node uv gh
 ```
 
 ### Linux (Debian/Ubuntu)
 
 ```bash
-sudo apt update && sudo apt install -y git python3 python3-pip nodejs npm
+sudo apt update && sudo apt install -y git git-lfs python3 python3-pip nodejs npm
 curl -LsSf https://astral.sh/uv/install.sh | sh        # uv
 # GitHub CLI: https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 ```
+
+> **Git LFS:** after installing the binary, run `git lfs install` once (per user) to register the
+> LFS filters. `bootstrap.ps1` also runs `git lfs install --local` for the project. The kit's
+> `.gitattributes` already routes common large/binary types (audio, video, archives, model
+> weights, columnar data) through LFS — add more with `git lfs track "*.ext"`.
 
 ---
 
@@ -132,6 +140,7 @@ python --version
 node --version; npm --version
 uv --version
 gh --version
+git lfs version
 lattice --version
 claude --version   # if you installed Claude Code
 codex --version    # if you installed Codex

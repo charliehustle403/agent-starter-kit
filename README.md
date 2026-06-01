@@ -22,7 +22,8 @@ already wired in:
 | `AGENTS.md` | Cross-agent rules (Codex/Cursor/etc.) | Fill in §5 "Project specifics" |
 | `GEMINI.md` | Gemini-specific mirror | Fill in §5 "Project specifics" |
 | `.gitignore` | Sensible Python/Node defaults + `.lattice/locks/` + secrets | usually none |
-| `bootstrap.ps1` | One-command project init (Lattice + dev branch + branch protection) | run once |
+| `.gitattributes` | Git LFS tracking for large/binary files (media, model weights, datasets) | add patterns with `git lfs track` |
+| `bootstrap.ps1` | One-command project init (Lattice + Git LFS + dev branch + branch protection) | run once |
 | `README.md` | This file | replace with your project's README |
 
 > **Not included on purpose:** no `.lattice/` board and no inherited git history. Each new
