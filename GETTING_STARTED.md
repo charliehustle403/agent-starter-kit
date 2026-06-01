@@ -97,10 +97,9 @@ uv tool install git+https://github.com/charliehustle403/lattice.git
 ```
 
 > **Note:** [`charliehustle403/lattice`](https://github.com/charliehustle403/lattice.git) is a
-> **private** repo, so this fallback only works on a machine signed in to that GitHub account
-> (cached `gh`/git credentials or an SSH key with access). If you don't have access, install
-> from the public upstream instead:
-> `uv tool install git+https://github.com/Stage-11-Agentics/lattice.git`.
+> **public** repo (MIT), so this fallback works for anyone — no GitHub sign-in required. It
+> mirrors the public upstream [`Stage-11-Agentics/lattice`](https://github.com/Stage-11-Agentics/lattice);
+> either source works (`uv tool install git+https://github.com/Stage-11-Agentics/lattice.git`).
 
 > **PATH note:** uv/pipx/pip install console scripts to `~/.local/bin` (Windows:
 > `%USERPROFILE%\.local\bin`). If `lattice` isn't found after install, add that folder to PATH
