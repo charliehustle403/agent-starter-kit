@@ -11,6 +11,8 @@ already wired in:
   the per-project board.
 - **dev/main transport workflow** — develop on `dev`, promote to `main` via PR; `main` is
   branch-protected.
+- **Optional:** [peon-ping](https://github.com/charliehustle403/peon-ping) agent voice
+  notifications — recommended; install steps in [GETTING_STARTED.md §5](GETTING_STARTED.md).
 
 ## What's inside
 

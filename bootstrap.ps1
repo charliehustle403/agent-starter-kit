@@ -168,4 +168,5 @@ Write-Host "  1. Fill in CLAUDE.md placeholders (<PROJECT NAME>, Stack, Commands
 Write-Host "  2. Fill in section 5 'Project specifics' of AGENTS.md and GEMINI.md."
 Write-Host "  3. Track that edit as your first Lattice task:"
 Write-Host "       lattice create `"Fill in project docs`" --actor $Actor" -ForegroundColor DarkGray
-Write-Host "  4. Develop on dev; promote to main via PR.`n"
+Write-Host "  4. Develop on dev; promote to main via PR."
+Write-Host "  5. Optional: install peon-ping for agent voice notifications - see GETTING_STARTED.md (section 5).`n"

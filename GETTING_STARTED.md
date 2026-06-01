@@ -142,7 +142,48 @@ All printing versions (and `gh` showing logged-in)? You're ready.
 
 ---
 
-## 5. Start the project
+## 5. Optional: peon-ping — agent voice notifications
+
+Stop babysitting the terminal. **[peon-ping](https://github.com/charliehustle403/peon-ping)**
+plays Warcraft / StarCraft / Portal / Zelda voice lines and on-screen banners when your AI agent
+finishes or needs permission — for **Claude Code, Codex, Cursor, Gemini**, and more. Optional, but
+genuinely useful when an agent runs long. MIT-licensed.
+
+It installs **globally by default**, so the hooks fire in *every* project (not just ones from this
+template) — install it once per machine.
+
+### Windows
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/charliehustle403/peon-ping/main/install.ps1" -OutFile .\install.ps1 -UseBasicParsing
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+```
+
+### macOS / Linux / WSL2
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/charliehustle403/peon-ping/main/install.sh | bash
+```
+
+Prefer to inspect first? Clone it and run the installer manually:
+
+```bash
+git clone https://github.com/charliehustle403/peon-ping.git
+cd peon-ping
+./install.sh          # Windows: .\install.ps1
+```
+
+- **Per-project instead of global:** on Windows add `-Local` (e.g. `.\install.ps1 -Local`) to
+  install hooks/skills into *this* project's `./.claude/` only.
+- **Pick your sound packs** interactively at [peonping.com](https://peonping.com/#picker).
+- **Control it:** the `peon` CLI manages config (`peon --help`); in an agent session the
+  `/peon-ping-toggle` and `/peon-ping-use` skills mute/unmute and switch voices.
+
+> Source repo: [charliehustle403/peon-ping](https://github.com/charliehustle403/peon-ping).
+
+---
+
+## 6. Start the project
 
 1. Create your repo from this template on GitHub (**“Use this template” → Create a new
    repository**), then clone it and `cd` in.
