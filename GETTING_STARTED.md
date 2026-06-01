@@ -201,14 +201,15 @@ powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.c
 curl -fsSL https://raw.githubusercontent.com/charliehustle403/peon-ping/main/install.sh | bash
 ```
 
-Prefer to inspect first? Clone it and run the installer manually:
+Prefer to inspect first? Clone it, then run the installer for your OS:
 
-```bash
+```bat
 git clone https://github.com/charliehustle403/peon-ping.git
 cd peon-ping
-:: Windows:      powershell -ExecutionPolicy Bypass -File .\install.ps1
-# Linux/macOS:  ./install.sh
 ```
+
+- **Windows (Command Prompt):** `powershell -ExecutionPolicy Bypass -File .\install.ps1`
+- **Linux / macOS:** `./install.sh`
 
 - **Per-project instead of global:** on Windows add `-Local` (e.g. `.\install.ps1 -Local`) to
   install hooks/skills into *this* project's `./.claude/` only.
